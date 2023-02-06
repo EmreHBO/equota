@@ -19,7 +19,7 @@ class LeaveResource
     /**
      * @var
      */
-    private static LeaveResource $instance;
+    private static $instance;
 
     /**
      * @param ContainerInterface $container
@@ -58,11 +58,12 @@ class LeaveResource
      * @param $staffId
      * @param $startDate
      * @param $endDate
+     * @param $deletedAt
      * @return bool
      * @throws \Doctrine\ORM\Exception\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function addLeave($staffId, $startDate, $endDate): bool
+    public function addLeave($staffId, $startDate, $endDate, $deletedAt): bool
     {
         /** @var LeaveRepository $repository */
 
@@ -73,7 +74,7 @@ class LeaveResource
         $item->setEndDate($endDate);
         $item->setCreatedAt(new DateTime('now'));
         $item->setUpdatedAt(new DateTime('now'));
-        $item->setDeletedAt();
+        $item->setDeletedAt($deletedAt);
         $manager->persist($item);
         $manager->flush();
         return true;
@@ -90,7 +91,7 @@ class LeaveResource
     {
         $manager = $this->getManager();
         $result = $manager->getRepository(Leave::class)->find($id);
-        $result->setIsActive(0);
+        $result->setDeletedAt(new DateTime('now'));
         $manager->flush();
         return true;
     }
@@ -107,11 +108,7 @@ class LeaveResource
 
         $manager = $this->getManager();
         $staffMember = $this->getLeave($id);
-        $staffMember->setName($request->get('name'));
-        $staffMember->setSurname($request->get('surname'));
-        $staffMember->setSgkNo($request->get('sgkNo'));
-        $staffMember->setTcNo($request->get('tcNo'));
-        $staffMember->setDepartment($request->get('department'));
+        $staffMember->setStaffId($request->get('name'));
         $staffMember->setStartDate($request->get('startDate'));
         $staffMember->setEndDate($request->get('endDate'));
         $staffMember->setUpdatedAt(new DateTime('now'));

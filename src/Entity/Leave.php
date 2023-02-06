@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\LeaveRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LeaveRepository::class)]
@@ -23,10 +24,10 @@ class Leave
     #[ORM\Column(length: 255)]
     private ?string $end_date = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
 
     #[ORM\Column(nullable: true)]
@@ -71,11 +72,6 @@ class Leave
         $this->end_date = $end_date;
 
         return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->created_at;
     }
 
     public function setCreatedAt(\DateTimeInterface $created_at): self

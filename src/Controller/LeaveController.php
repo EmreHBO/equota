@@ -22,7 +22,8 @@ class LeaveController extends AbstractController
         $staffId = $request->get('staffId');
         $startDate = $request->get('startDate');
         $endDate = $request->get('endDate');
-        LeaveResource::getInstance($container)->addLeave($staffId, $startDate, $endDate);
+        $deletedAt = $request->get('deletedAt');
+        LeaveResource::getInstance($container)->addLeave($staffId, $startDate, $endDate, $deletedAt);
         $response = new Response();
         $response->setContent('Kayıt başarılı')->setStatusCode(201);
         return new Response($response);

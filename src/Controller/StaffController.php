@@ -35,7 +35,8 @@ class StaffController extends AbstractController
         $department = $request->get('department');
         $startDate = $request->get('startDate');
         $endDate = $request->get('endDate');
-        StaffResource::getInstance($container)->addStaffMember($name, $surname, $sgkNo, $tcNo, $department, $startDate, $endDate);
+        $deletedAt = $request->get('deletedAt');
+        StaffResource::getInstance($container)->addStaffMember($name, $surname, $sgkNo, $tcNo, $department, $startDate, $endDate, $deletedAt);
         $response = new Response();
         $response->setContent('Kayıt başarılı')->setStatusCode(201);
         return new Response($response);
@@ -68,7 +69,7 @@ class StaffController extends AbstractController
     public function remove(ContainerInterface $container, Request $request): Response
     {
         $id = $request->get('id');
-        StaffResource::getInstance($container)->setStaffMemberStatus($id);
+        StaffResource::getInstance($container)->setStaffMemberDeletedAt($id);
         $response = new Response();
         $response->setContent('Silme başarılı')->setStatusCode(200);
         return new Response($response);

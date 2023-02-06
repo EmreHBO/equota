@@ -19,7 +19,7 @@ class StaffResource
     /**
      * @var
      */
-    private static StaffResource $instance;
+    private static $instance;
 
     /**
      * @param ContainerInterface $container
@@ -71,11 +71,14 @@ class StaffResource
      * @param $sgkNo
      * @param $tcNo
      * @param $department
+     * @param $startDate
+     * @param $endDate
+     * @param $deletedAt
      * @return bool
      * @throws \Doctrine\ORM\Exception\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function addStaffMember( $name, $surname, $sgkNo, $tcNo, $department, $startDate, $endDate): bool
+    public function addStaffMember( $name, $surname, $sgkNo, $tcNo, $department, $startDate, $endDate, $deletedAt): bool
     {
         /** @var StaffRepository $repository */
 
@@ -90,7 +93,7 @@ class StaffResource
         $item->setEndDate($endDate);
         $item->setCreatedAt(new DateTime('now'));
         $item->setUpdatedAt(new DateTime('now'));
-        $item->setIsActive('1');
+        $item->setDeletedAt($deletedAt);
         $manager->persist($item);
         $manager->flush();
         return true;
@@ -103,11 +106,11 @@ class StaffResource
      * @throws \Doctrine\ORM\Exception\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function setStaffMemberStatus(int $id): bool
+    public function setStaffMemberDeletedAt(int $id): bool
     {
         $manager = $this->getManager();
         $result = $manager->getRepository(Staff::class)->find($id);
-        $result->setIsActive(0);
+        $result->setDeletedAt(new DateTime('now'));
         $manager->flush();
         return true;
     }
