@@ -108,7 +108,7 @@ class LeaveResource
 
         $manager = $this->getManager();
         $staffMember = $this->getLeave($id);
-        $staffMember->setStaffId($request->get('name'));
+        $staffMember->setStaffId($request->get('staffId'));
         $staffMember->setStartDate($request->get('startDate'));
         $staffMember->setEndDate($request->get('endDate'));
         $staffMember->setUpdatedAt(new DateTime('now'));
