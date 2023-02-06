@@ -41,8 +41,8 @@ class Staff
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
 
-    #[ORM\Column(type: Types::BOOLEAN)]
-    private ?bool $is_active = null;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeInterface $deleted_at = null;
 
     public function getId(): ?int
     {
@@ -160,6 +160,18 @@ class Staff
     public function setIsActive(bool $is_active): self
     {
         $this->is_active = $is_active;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeInterface
+    {
+        return $this->deleted_at;
+    }
+
+    public function setDeletedAt(?\DateTimeInterface $deleted_at): self
+    {
+        $this->deleted_at = $deleted_at;
 
         return $this;
     }

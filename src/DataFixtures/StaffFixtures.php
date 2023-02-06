@@ -28,8 +28,8 @@ class StaffFixtures extends Fixture
             $item->setSgkNo(12345678+$i);
             $item->setTcNo(12345678+$i);
             $item->setDepartment(1);
-            $item->setStartDate(new DateTime('now'));
-            $item->setEndDate(new DateTime('now'));
+            $item->setStartDate('2023-01-01');
+            $item->setEndDate('2023-01-01');
             $item->setCreatedAt(new DateTime('now'));
             $item->setUpdatedAt(new DateTime('now'));
             $item->setIsActive(1);

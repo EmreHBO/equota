@@ -19,7 +19,7 @@ class StaffResource
     /**
      * @var
      */
-    private static $instance;
+    private static StaffResource $instance;
 
     /**
      * @param ContainerInterface $container
