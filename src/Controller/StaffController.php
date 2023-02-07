@@ -12,14 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StaffController extends AbstractController
 {
-    #[Route('/emre', name: 'blog_list')]
-    public function index(ContainerInterface $container): JsonResponse
-    {
-
-        $staff = StaffResource::getInstance($container)->getStaff();
-
-            return new JsonResponse(['name' => $staff]);
-    }
 
     /**
      * @throws \Doctrine\ORM\OptimisticLockException
@@ -34,9 +26,15 @@ class StaffController extends AbstractController
         $tcNo = $request->get('tcNo');
         $department = $request->get('department');
         $startDate = $request->get('startDate');
-        $endDate = $request->get('endDate');
-        $deletedAt = $request->get('deletedAt');
+        $endDate = $request->get('endDate') ?? null;
+        $deletedAt = $request->get('deletedAt') ?? null;
         StaffResource::getInstance($container)->addStaffMember($name, $surname, $sgkNo, $tcNo, $department, $startDate, $endDate, $deletedAt);
+        $message = empty($data) ? 'Uygun Veri Bulunamamıştır' : 'Veriler Listelenmiştir';
+
+        return new JsonResponse([
+            'message' => $message,
+            'data' => $data
+        ], 200);
         $response = new Response();
         $response->setContent('Kayıt başarılı')->setStatusCode(201);
         return new Response($response);

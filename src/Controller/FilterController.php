@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use App\Resources\StaffResource;
+use App\Repository\LeaveRepository;
+use App\Repository\StaffRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,16 +13,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class FilterController extends AbstractController
 {
     #[Route('/get-data-by-filter', name: 'get_data_by_filter')]
-    public function index(ContainerInterface $container, Request $request): JsonResponse
+    public function index(ManagerRegistry $doctrine, Request $request, LeaveRepository $leaveRepository, StaffRepository $staffRepository): JsonResponse
     {
-        $name = $request->get('name');
-        $surname = $request->get('surname');
+        $nameOrSurname = $request->get('nameOrSurname');
         $dateStart = $request->get('dateStart');
         $dateEnd = $request->get('dateEnd');
+        $onLeave = $request->get('onLeave');
 
-        $staff = StaffResource::getInstance($container)->getStaff();
+        $data = $staffRepository->findStaffByFilter($nameOrSurname, $dateStart, $dateEnd, $onLeave);
+        $message = empty($data) ? 'Uygun Veri Bulunamamıştır' : 'Veriler Listelenmiştir';
 
-        return new JsonResponse(['name' => $staff]);
+        return new JsonResponse([
+            'message' => $message,
+            'data' => $data
+        ], 200);
     }
 
 

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StaffRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,7 +25,7 @@ class Staff
     #[ORM\Column(length: 255)]
     private ?string $start_date = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $end_date = null;
 
     #[ORM\Column]
@@ -32,7 +34,7 @@ class Staff
     #[ORM\Column]
     private ?int $tc_no = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $department = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -41,8 +43,16 @@ class Staff
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\OneToMany(mappedBy: 'staff', targetEntity: Leave::class)]
+    private Collection $leaves;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deleted_at = null;
+
+    public function __construct()
+    {
+        $this->leaves = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -148,6 +158,37 @@ class Staff
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection<int, Leave>
+     */
+    public function getLeaves(): Collection
+    {
+        return $this->leaves;
+    }
+
+    public function addLeave(Leave $leave): self
+    {
+        if (!$this->leaves->contains($leave)) {
+            $this->leaves->add($leave);
+            $leave->setStaffId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLeave(Leave $leave): self
+    {
+        if ($this->leaves->removeElement($leave)) {
+            // set the owning side to null (unless already changed)
+            if ($leave->getStaffId() === $this) {
+                $leave->setStaffId(null);
+            }
+        }
 
         return $this;
     }

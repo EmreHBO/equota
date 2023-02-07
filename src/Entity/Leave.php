@@ -15,9 +15,6 @@ class Leave
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $staff_id = null;
-
     #[ORM\Column(length: 255)]
     private ?string $start_date = null;
 
@@ -30,24 +27,16 @@ class Leave
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\ManyToOne(inversedBy: 'leaves')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Staff $staff = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deleted_at = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getStaffId(): ?int
-    {
-        return $this->staff_id;
-    }
-
-    public function setStaffId(int $staff_id): self
-    {
-        $this->staff_id = $staff_id;
-
-        return $this;
     }
 
     public function getStartDate(): ?string
@@ -89,6 +78,18 @@ class Leave
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getStaffId(): ?Staff
+    {
+        return $this->staff;
+    }
+
+    public function setStaffId(?Staff $staff): self
+    {
+        $this->staff = $staff;
 
         return $this;
     }

@@ -66,6 +66,19 @@ class StaffResource
     }
 
     /**
+     * @param int $id
+     * @return Staff
+     */
+    public function getStaffMemberByFilter(int $id): Staff
+    {
+        /** @var StaffRepository $repository */
+        $repository = $this->getRepository(Staff::class);
+
+
+        return $repository->createQueryBuilder()->find($id);
+    }
+
+    /**
      * @param $name
      * @param $surname
      * @param $sgkNo
@@ -139,6 +152,5 @@ class StaffResource
         $manager->flush();
         return true;
     }
-
 
 }

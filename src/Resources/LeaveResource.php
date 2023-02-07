@@ -3,6 +3,7 @@
 namespace App\Resources;
 
 use App\Entity\Leave;
+use App\Entity\Staff;
 use App\Repository\LeaveRepository;
 use App\Traits\ResourceTrait;
 use DateTime;
@@ -63,13 +64,13 @@ class LeaveResource
      * @throws \Doctrine\ORM\Exception\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function addLeave($staffId, $startDate, $endDate, $deletedAt): bool
+    public function addLeave($staff, $startDate, $endDate, $deletedAt): bool
     {
         /** @var LeaveRepository $repository */
 
         $manager = $this->getManager();
         $item = new Leave();
-        $item->setStaffId($staffId);
+        $item->setStaffId($staff);
         $item->setStartDate($startDate);
         $item->setEndDate($endDate);
         $item->setCreatedAt(new DateTime('now'));
@@ -102,13 +103,12 @@ class LeaveResource
      * @throws \Doctrine\ORM\Exception\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function updateLeave(Request $request): bool
+    public function updateLeave(Staff $staff, Request $request): bool
     {
         $id = $request->get('id');
-
         $manager = $this->getManager();
         $staffMember = $this->getLeave($id);
-        $staffMember->setStaffId($request->get('staffId'));
+        $staffMember->setStaffId($staff);
         $staffMember->setStartDate($request->get('startDate'));
         $staffMember->setEndDate($request->get('endDate'));
         $staffMember->setUpdatedAt(new DateTime('now'));
