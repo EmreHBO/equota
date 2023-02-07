@@ -28,16 +28,12 @@ class StaffController extends AbstractController
         $startDate = $request->get('startDate');
         $endDate = $request->get('endDate') ?? null;
         $deletedAt = $request->get('deletedAt') ?? null;
-        StaffResource::getInstance($container)->addStaffMember($name, $surname, $sgkNo, $tcNo, $department, $startDate, $endDate, $deletedAt);
-        $message = empty($data) ? 'Uygun Veri Bulunamamıştır' : 'Veriler Listelenmiştir';
+        $result = StaffResource::getInstance($container)->addStaffMember($name, $surname, $sgkNo, $tcNo, $department, $startDate, $endDate, $deletedAt);
+        $message = empty($result) ? 'Kayıt Başarısız' : 'Kayıt başarılı';
 
         return new JsonResponse([
             'message' => $message,
-            'data' => $data
-        ], 200);
-        $response = new Response();
-        $response->setContent('Kayıt başarılı')->setStatusCode(201);
-        return new Response($response);
+        ], 201);
     }
 
     /**
@@ -50,10 +46,12 @@ class StaffController extends AbstractController
     #[Route('/edit-staff-member', name: 'edit_staff_member')]
     public function update(ContainerInterface $container, Request $request): Response
     {
-        StaffResource::getInstance($container)->updateStaffMember($request);
-        $response = new Response();
-        $response->setContent('Güncelleme başarılı')->setStatusCode(201);
-        return new Response($response);
+        $result = StaffResource::getInstance($container)->updateStaffMember($request);
+        $message = empty($result) ? 'Güncelleme Başarısız' : 'Güncelleme Başarılı';
+
+        return new JsonResponse([
+            'message' => $message,
+        ], 201);
     }
 
     /**
@@ -67,10 +65,12 @@ class StaffController extends AbstractController
     public function remove(ContainerInterface $container, Request $request): Response
     {
         $id = $request->get('id');
-        StaffResource::getInstance($container)->setStaffMemberDeletedAt($id);
-        $response = new Response();
-        $response->setContent('Silme başarılı')->setStatusCode(200);
-        return new Response($response);
+        $result = StaffResource::getInstance($container)->setStaffMemberDeletedAt($id);
+        $message = empty($result) ? 'Silme Başarısız' : 'Silme Başarılı';
+
+        return new JsonResponse([
+            'message' => $message,
+        ], 201);
     }
 
 

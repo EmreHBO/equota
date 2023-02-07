@@ -7,6 +7,7 @@ use App\Resources\LeaveResource;
 use App\Resources\StaffResource;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,10 +26,12 @@ class LeaveController extends AbstractController
         $startDate = $request->get('startDate');
         $endDate = $request->get('endDate');
         $deletedAt = $request->get('deletedAt') ?? null;
-        LeaveResource::getInstance($container)->addLeave($staff, $startDate, $endDate, $deletedAt);
-        $response = new Response();
-        $response->setContent('Kayıt başarılı')->setStatusCode(201);
-        return new Response($response);
+        $result = LeaveResource::getInstance($container)->addLeave($staff, $startDate, $endDate, $deletedAt);
+        $message = empty($result) ? 'Kayıt Başarısız' : 'Kayıt başarılı';
+
+        return new JsonResponse([
+            'message' => $message,
+        ], 201);
     }
 
     /**
@@ -42,10 +45,12 @@ class LeaveController extends AbstractController
     public function update(ContainerInterface $container, Request $request): Response
     {
         $staff = StaffResource::getInstance($container)->getStaffMember($request->get('staffId'));
-        LeaveResource::getInstance($container)->updateLeave($staff, $request);
-        $response = new Response();
-        $response->setContent('Güncelleme başarılı')->setStatusCode(201);
-        return new Response($response);
+        $result = LeaveResource::getInstance($container)->updateLeave($staff, $request);
+        $message = empty($result) ? 'Güncelleme Başarısız' : 'Güncelleme Başarılı';
+
+        return new JsonResponse([
+            'message' => $message,
+        ], 201);
     }
 
     /**
@@ -59,10 +64,12 @@ class LeaveController extends AbstractController
     public function remove(ContainerInterface $container, Request $request): Response
     {
         $id = $request->get('id');
-        LeaveResource::getInstance($container)->setLeaveStatus($id);
-        $response = new Response();
-        $response->setContent('Silme başarılı')->setStatusCode(200);
-        return new Response($response);
+        $result = LeaveResource::getInstance($container)->setLeaveStatus($id);
+        $message = empty($result) ? 'Silme Başarısız' : 'Silme Başarılı';
+
+        return new JsonResponse([
+            'message' => $message,
+        ], 201);
     }
 
 
