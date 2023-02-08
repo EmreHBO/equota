@@ -9,18 +9,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class LeaveController extends AbstractController
 {
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @param ContainerInterface $container
+     * @param Request $request
+     * @return JsonResponse
      * @throws \Doctrine\ORM\Exception\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     #[Route('/add-leave', name: 'add_leave')]
-    public function insert(ContainerInterface $container, Request $request): Response
+    public function insert(ContainerInterface $container, Request $request): JsonResponse
     {
         $staff = StaffResource::getInstance($container)->getStaffMember($request->get('staffId'));
         $startDate = $request->get('startDate');
@@ -37,12 +39,12 @@ class LeaveController extends AbstractController
     /**
      * @param ContainerInterface $container
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      * @throws \Doctrine\ORM\Exception\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     #[Route('/edit-leave', name: 'edit_leave')]
-    public function update(ContainerInterface $container, Request $request): Response
+    public function update(ContainerInterface $container, Request $request): JsonResponse
     {
         $staff = StaffResource::getInstance($container)->getStaffMember($request->get('staffId'));
         $result = LeaveResource::getInstance($container)->updateLeave($staff, $request);
@@ -56,12 +58,12 @@ class LeaveController extends AbstractController
     /**
      * @param ContainerInterface $container
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      * @throws \Doctrine\ORM\Exception\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     #[Route('/remove-leave', name: 'remove_leave')]
-    public function remove(ContainerInterface $container, Request $request): Response
+    public function remove(ContainerInterface $container, Request $request): JsonResponse
     {
         $id = $request->get('id');
         $result = LeaveResource::getInstance($container)->setLeaveStatus($id);

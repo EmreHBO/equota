@@ -7,18 +7,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class StaffController extends AbstractController
 {
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @param ContainerInterface $container
+     * @param Request $request
+     * @return JsonResponse
      * @throws \Doctrine\ORM\Exception\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     #[Route('/add-staff-member', name: 'add_staff_member')]
-    public function insert(ContainerInterface $container, Request $request): Response
+    public function insert(ContainerInterface $container, Request $request): JsonResponse
     {
         $name = $request->get('name');
         $surname = $request->get('surname');
@@ -39,12 +41,12 @@ class StaffController extends AbstractController
     /**
      * @param ContainerInterface $container
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      * @throws \Doctrine\ORM\Exception\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     #[Route('/edit-staff-member', name: 'edit_staff_member')]
-    public function update(ContainerInterface $container, Request $request): Response
+    public function update(ContainerInterface $container, Request $request): JsonResponse
     {
         $result = StaffResource::getInstance($container)->updateStaffMember($request);
         $message = empty($result) ? 'Güncelleme Başarısız' : 'Güncelleme Başarılı';
@@ -57,12 +59,12 @@ class StaffController extends AbstractController
     /**
      * @param ContainerInterface $container
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      * @throws \Doctrine\ORM\Exception\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     #[Route('/remove-staff-member', name: 'remove_staff_member')]
-    public function remove(ContainerInterface $container, Request $request): Response
+    public function remove(ContainerInterface $container, Request $request): JsonResponse
     {
         $id = $request->get('id');
         $result = StaffResource::getInstance($container)->setStaffMemberDeletedAt($id);

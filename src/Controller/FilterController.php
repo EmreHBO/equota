@@ -21,7 +21,7 @@ class FilterController extends AbstractController
         $onLeave = $request->get('onLeave');
 
         $data = $staffRepository->findStaffByFilter($nameOrSurname, $dateStart, $dateEnd, $onLeave);
-        $message = empty($data) ? 'Uygun Veri Bulunamamıştır' : 'Veriler Listelenmiştir';
+        $message = empty($data) ? 'Uygun Veri Bulunamamıştır' : 'Uygun Veriler Listelenmiştir';
 
         return new JsonResponse([
             'message' => $message,
