@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "2deb2d3b-adfa-44e4-91ee-a686e2267bf2",
+		"name": "Equota Staff-Leave",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23864826"
+	},
+	"item": [
+		{
+			"name": "Staff CRUD",
+			"item": [
+				{
+					"name": "add-staff-member",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "deneme",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "deneme",
+									"type": "text"
+								},
+								{
+									"key": "sgkNo\n",
+									"value": "1234",
+									"type": "text"
+								},
+								{
+									"key": "tcNo",
+									"value": "1234",
+									"type": "text"
+								},
+								{
+									"key": "department",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "2023-02-04",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://127.0.0.1:8000/add-staff-member",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"add-staff-member"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit-staff-member",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "denemeedit11",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "denemeedit11",
+									"type": "text"
+								},
+								{
+									"key": "sgkNo\n",
+									"value": "123411",
+									"type": "text"
+								},
+								{
+									"key": "tcNo",
+									"value": "123411",
+									"type": "text"
+								},
+								{
+									"key": "department",
+									"value": "111",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "2023-02-04",
+									"type": "text"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-01-01",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://127.0.0.1:8000/edit-staff-member",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"edit-staff-member"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove-staff-member",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://127.0.0.1:8000/remove-staff-member",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"remove-staff-member"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leave CRUD",
+			"item": [
+				{
+					"name": "add-leave",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:8000/add-leave?staffId=1&startDate=2023-05-05&endDate=2023-05-07",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"add-leave"
+							],
+							"query": [
+								{
+									"key": "staffId",
+									"value": "1"
+								},
+								{
+									"key": "startDate",
+									"value": "2023-05-05"
+								},
+								{
+									"key": "endDate",
+									"value": "2023-05-07"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit-leave",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:8000/edit-leave?id=1&staffId=1&startDate=2023-05-05&endDate=2023-05-07",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"edit-leave"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								},
+								{
+									"key": "staffId",
+									"value": "1"
+								},
+								{
+									"key": "startDate",
+									"value": "2023-05-05"
+								},
+								{
+									"key": "endDate",
+									"value": "2023-05-07"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove-leave",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:8000/remove-leave?id",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"remove-leave"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Filter",
+			"item": [
+				{
+					"name": "get-data-by-filter",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://127.0.0.1:8000/get-data-by-filter",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"get-data-by-filter"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
